@@ -1,0 +1,32 @@
+Postgres start / stop
+
+sudo -u postgres /Library/PostgreSQL/9.5/bin/pg_ctl -D/Library/PostgreSQL/9.5/data start
+sudo -u postgres /Library/PostgreSQL/9.5/bin/pg_ctl -D/Library/PostgreSQL/9.5/data stop
+
+Edited autostart in config file
+/Library/LaunchDaemons/com.edb.launchd.postgresql-9.5.plist
+
+Bij Inez:
+/Gebruikers/doornenbal/PostgreSQL/conf/plist/postgresql.pg95.plist
+
+<key>RunAtLoad</key>
+        <false/> instead of <true/>
+        
+
+in .bash_profile:
+alias postgres.server='echo <sudopass> | sudo -S -u postgres /Library/PostgreSQL/9.5/bin/pg_ctl -D/Library/PostgreSQL/9.5/data'
+en dan starten/stoppen met postgres.server start resp stop    
+
+Password in ~/.pgpass
+
+Dir:
+cd /Library/PostgreSQL/9.5/bin
+
+backup:
+sudo -u postgres ./pg_dump tti > /Users/jodo/Documents/tti_testdump.sql
+
+RESTORE werkt niet op deze manier meer? (Custom format verhaal.) Via pgAdminIII kan het rechtstreeks.
+
+restore
+sudo -u postgres ./psql --set ON_ERROR_STOP=on tti < /Users/jodo/Documents/tti_testdump.sql  
+

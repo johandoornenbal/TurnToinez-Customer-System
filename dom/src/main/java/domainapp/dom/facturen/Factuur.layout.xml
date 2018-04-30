@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bs3:grid xmlns:bs3="http://isis.apache.org/applib/layout/grid/bootstrap3" xmlns:cpt="http://isis.apache.org/applib/layout/component" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://isis.apache.org/applib/layout/component http://isis.apache.org/applib/layout/component/component.xsd http://isis.apache.org/applib/layout/grid/bootstrap3 http://isis.apache.org/applib/layout/grid/bootstrap3/bootstrap3.xsd">
+    <bs3:row>
+        <bs3:col span="12" unreferencedActions="true">
+            <cpt:domainObject/>
+        </bs3:col>
+    </bs3:row>
+    <bs3:row>
+        <bs3:col span="12">
+            <bs3:tabGroup>
+                <bs3:tab name="Factuur">
+                    <bs3:row>
+                        <bs3:col span="6">
+                            <cpt:fieldSet name="Factuur" id="factuur">
+                                <cpt:property id="nummer"/>
+                                <cpt:property id="datum"/>
+                                <cpt:property id="bestelling"/>
+                                <cpt:property id="klant"/>
+                            </cpt:fieldSet>
+                            <cpt:fieldSet name="Betaling" id="betaling">
+                                <cpt:property id="datumBetaald"/>
+                            </cpt:fieldSet>
+                        </bs3:col>
+                        <bs3:col span="6">
+                            <cpt:fieldSet name="Bedragen" id="bedragen">
+                                <cpt:property id="bedragExclBtw"/>
+                                <cpt:property id="btw"/>
+                                <cpt:property id="bedragInclBtw"/>
+                            </cpt:fieldSet>
+                            <cpt:fieldSet name="Status" id="status">
+                                <cpt:property id="draft"/>
+                                <cpt:property id="verzonden"/>
+                                <cpt:property id="vervallen"/>
+                            </cpt:fieldSet>
+                        </bs3:col>
+                    </bs3:row>
+                </bs3:tab>
+                <bs3:tab name="Metadata">
+                    <bs3:row>
+                        <bs3:col span="12">
+                            <cpt:fieldSet name="Algemeen" id="algemeen" unreferencedProperties="true" />
+                            <cpt:fieldSet name="Metadata" id="metadata">
+                                <cpt:action id="recentAuditEntries" position="PANEL_DROPDOWN"/>
+                                <cpt:action id="clearHints" position="PANEL_DROPDOWN"/>
+                                <cpt:action id="downloadLayoutXml" position="PANEL_DROPDOWN"/>
+                                <cpt:action id="downloadJdoMetadata" position="PANEL_DROPDOWN"/>
+                                <cpt:action id="rebuildMetamodel" position="PANEL_DROPDOWN"/>
+                                <cpt:property id="historicId"/>
+                                <cpt:property id="datanucleusVersionLong"/>
+                                <cpt:property id="datanucleusIdLong"/>
+                                <cpt:property id="datanucleusVersionTimestamp"/>
+                                <cpt:action id="compare"/>
+                                <cpt:action id="thenComparingInt"/>
+                                <cpt:action id="thenComparingLong"/>
+                                <cpt:action id="thenComparing"/>
+                                <cpt:action id="thenComparingDouble"/>
+                                <cpt:action id="reversed"/>
+                            </cpt:fieldSet>
+                        </bs3:col>
+                    </bs3:row>
+                </bs3:tab>
+            </bs3:tabGroup>
+        </bs3:col>
+        <bs3:col span="12" unreferencedCollections="true">
+            <cpt:collection defaultView="table" id="factuurRegels"/>
+        </bs3:col>
+    </bs3:row>
+</bs3:grid>

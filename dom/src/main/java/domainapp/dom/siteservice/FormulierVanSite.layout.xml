@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bs3:grid xmlns:bs3="http://isis.apache.org/applib/layout/grid/bootstrap3" xmlns:cpt="http://isis.apache.org/applib/layout/component" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://isis.apache.org/applib/layout/component http://isis.apache.org/applib/layout/component/component.xsd http://isis.apache.org/applib/layout/grid/bootstrap3 http://isis.apache.org/applib/layout/grid/bootstrap3/bootstrap3.xsd">
+    <bs3:row>
+        <bs3:col span="12" unreferencedActions="true">
+            <cpt:domainObject/>
+        </bs3:col>
+    </bs3:row>
+    <bs3:row>
+        <bs3:col span="12">
+            <bs3:tabGroup>
+                <bs3:tab name="Formulier">
+                    <bs3:row>
+                        <bs3:col span="6">
+                            <cpt:fieldSet name="Turnster" id="turnster" unreferencedProperties="true">
+                                <cpt:property id="nummer"/>
+                                <cpt:property id="turnster"/>
+                                <cpt:property id="leeftijd"/>
+                                <cpt:property id="kledingmaat"/>\
+                                <cpt:property id="postuur"/>
+                            </cpt:fieldSet>
+                            <cpt:fieldSet name="Klant" id="klant">
+                                <cpt:property id="naam"/>
+                                <cpt:property id="email"/>
+                                <cpt:property id="telefoon"/>
+                                <cpt:property id="straat"/>
+                                <cpt:property id="postcode"/>
+                                <cpt:property id="plaats"/>
+                                <cpt:property id="vragen"/>
+                            </cpt:fieldSet>
+                        </bs3:col>
+                        <bs3:col span="6">
+                            <cpt:fieldSet name="Bestelling" id="bestelling">
+                                <cpt:property id="pakje"/>
+                                <cpt:property id="mouwtje"/>
+                                <cpt:property id="broekje"/>
+                                <cpt:property id="kleurbroekje"/>
+                                <cpt:property id="elastiek"/>
+                                <cpt:property id="opmerkingen"/>
+                            </cpt:fieldSet>
+                        </bs3:col>
+                        <bs3:col span="6">
+                            <cpt:collection id="bestaandeKlanten" defaultView="table"/>
+                        </bs3:col>
+                        <bs3:col span="6">
+                            <cpt:fieldSet name="Prijs informatie" id="prijsinfo">
+                                <cpt:property id="prijsInfo"/>
+                            </cpt:fieldSet>
+                        </bs3:col>
+                    </bs3:row>
+                </bs3:tab>
+                <bs3:tab name="Metadata">
+                    <bs3:row>
+                        <bs3:col span="12">
+                            <cpt:fieldSet name="Metadata" id="metadata">
+                                <cpt:property id="naam"/>
+                                <cpt:action id="recentAuditEntries" position="PANEL_DROPDOWN"/>
+                                <cpt:action id="clearHints" position="PANEL_DROPDOWN"/>
+                                <cpt:action id="downloadLayoutXml" position="PANEL_DROPDOWN"/>
+                                <cpt:action id="downloadJdoMetadata" position="PANEL_DROPDOWN"/>
+                                <cpt:action id="rebuildMetamodel" position="PANEL_DROPDOWN"/>
+                                <cpt:property id="datanucleusVersionLong"/>
+                                <cpt:property id="datanucleusIdLong"/>
+                                <cpt:property id="datanucleusVersionTimestamp"/>
+                            </cpt:fieldSet>
+                        </bs3:col>
+                    </bs3:row>
+                </bs3:tab>
+            </bs3:tabGroup>
+        </bs3:col>
+    </bs3:row>
+    <bs3:row>
+        <bs3:col span="12" unreferencedCollections="true">
+        </bs3:col>
+    </bs3:row>
+</bs3:grid>

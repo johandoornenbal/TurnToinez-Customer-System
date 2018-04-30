@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bs3:grid xmlns:bs3="http://isis.apache.org/applib/layout/grid/bootstrap3" xmlns:cpt="http://isis.apache.org/applib/layout/component" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://isis.apache.org/applib/layout/component http://isis.apache.org/applib/layout/component/component.xsd http://isis.apache.org/applib/layout/grid/bootstrap3 http://isis.apache.org/applib/layout/grid/bootstrap3/bootstrap3.xsd">
+    <bs3:row>
+        <bs3:col span="12" unreferencedActions="true">
+            <cpt:domainObject/>
+        </bs3:col>
+    </bs3:row>
+    <bs3:row>
+        <bs3:col span="12">
+            <bs3:tabGroup>
+                <bs3:tab name="Invoer bestelling">
+                    <bs3:row>
+                        <bs3:col span="12">
+                            <bs3:row>
+                                <bs3:col span="6">
+                                    <cpt:fieldSet name="Gegevens turnster" id="turnsterinvoer">
+                                        <cpt:action id="turnsterGegevensWijzigen" />
+                                        <cpt:property id="naamTurnster"/>
+                                        <cpt:property id="leeftijd"/>
+                                        <cpt:property id="kledingmaat"/>
+                                        <cpt:property id="lengte"/>
+                                        <cpt:property id="postuur"/>
+                                    </cpt:fieldSet>
+                                    <cpt:fieldSet name="Gegevens klant" id="klantinvoer">
+                                        <cpt:action id="klantGegevensWijzigen" />
+                                        <cpt:property id="naamKlant"/>
+                                        <cpt:property id="email"/>
+                                    </cpt:fieldSet>
+                                    <cpt:fieldSet name="Verzend adres" id="adres">
+                                        <cpt:property id="straat"/>
+                                        <cpt:property id="plaats"/>
+                                        <cpt:property id="postcode"/>
+                                    </cpt:fieldSet>
+                                    <cpt:fieldSet name="Overige" id="overige">
+                                        <cpt:property id="telefoon1"/>
+                                        <cpt:property id="telefoon2"/>
+                                        <cpt:property id="aantekeningen"/>
+                                    </cpt:fieldSet>
+                                </bs3:col>
+                                <bs3:col span="6">
+                                    <bs3:row>
+                                        <bs3:col span="12">
+                                            <cpt:fieldSet name="PrijsInfo" id="prijsinfo">
+                                                <cpt:action id="bestellingWijzigen" />
+                                                <cpt:property id="prijsInfo"/>
+                                            </cpt:fieldSet>
+                                        </bs3:col>
+                                    </bs3:row>
+                                    <bs3:row>
+                                        <bs3:col span="6">
+                                            <cpt:fieldSet name="Artikel" id="artikel">
+                                                <cpt:property id="pakje"/>
+                                                <cpt:property id="broekje"/>
+                                                <cpt:property id="elastiek"/>
+                                                <cpt:property id="opmerkingen"/>
+                                            </cpt:fieldSet>
+                                        </bs3:col>
+                                        <bs3:col span="6">
+                                            <cpt:fieldSet name="Prijs" id="prijs">
+                                                <cpt:property id="prijsPakje"/>
+                                                <cpt:property id="prijsBroekje"/>
+                                                <cpt:property id="prijsElastiek"/>
+                                                <cpt:property id="verzendkosten"/>
+                                            </cpt:fieldSet>
+                                        </bs3:col>
+                                    </bs3:row>
+
+                                </bs3:col>
+                            </bs3:row>
+                        </bs3:col>
+                    </bs3:row>
+                </bs3:tab>
+                <bs3:tab name="Metadata">
+                    <bs3:row>
+                        <bs3:col span="12">
+                            <cpt:fieldSet name="Algemeen" id="algemeen" unreferencedProperties="true">
+                            </cpt:fieldSet>
+                            <cpt:fieldSet name="Metadata" id="metadata">
+                                <cpt:action id="recentAuditEntries" position="PANEL_DROPDOWN"/>
+                                <cpt:action id="clearHints" position="PANEL_DROPDOWN"/>
+                                <cpt:action id="downloadLayoutXml" position="PANEL_DROPDOWN"/>
+                                <cpt:action id="downloadJdoMetadata" position="PANEL_DROPDOWN"/>
+                                <cpt:action id="rebuildMetamodel" position="PANEL_DROPDOWN"/>
+                                <cpt:property id="datanucleusVersionLong"/>
+                                <cpt:property id="datanucleusIdLong"/>
+                                <cpt:property id="datanucleusVersionTimestamp"/>
+                            </cpt:fieldSet>
+                        </bs3:col>
+                    </bs3:row>
+                </bs3:tab>
+            </bs3:tabGroup>
+        </bs3:col>
+    </bs3:row>
+    <bs3:row>
+        <bs3:col span="12" unreferencedCollections="true">
+        </bs3:col>
+    </bs3:row>
+</bs3:grid>

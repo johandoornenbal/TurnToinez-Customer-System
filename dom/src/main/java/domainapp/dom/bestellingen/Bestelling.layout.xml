@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bs3:grid xmlns:bs3="http://isis.apache.org/applib/layout/grid/bootstrap3" xmlns:cpt="http://isis.apache.org/applib/layout/component" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://isis.apache.org/applib/layout/component http://isis.apache.org/applib/layout/component/component.xsd http://isis.apache.org/applib/layout/grid/bootstrap3 http://isis.apache.org/applib/layout/grid/bootstrap3/bootstrap3.xsd">
+    <bs3:row>
+        <bs3:col span="12" unreferencedActions="true">
+            <cpt:domainObject/>
+            <cpt:action id="besteld"/>
+            <cpt:action id="betaald"/>
+            <cpt:action id="klaar"/>
+        </bs3:col>
+    </bs3:row>
+    <bs3:row>
+        <bs3:col span="12">
+            <bs3:tabGroup>
+                <bs3:tab name="Bestelling">
+                    <bs3:row>
+                        <bs3:col span="3">
+                            <cpt:fieldSet name="Bestelling" id="bestelling">
+                                <cpt:action id="wijzigKlant"/>
+                                <cpt:property id="status"/>
+                                <cpt:property id="klant"/>
+                                <cpt:property id="datumBestelling"/>
+                                <cpt:property id="totaalBedrag"/>
+                                <cpt:property id="factuur"/>
+                            </cpt:fieldSet>
+                        </bs3:col>
+                        <bs3:col span="3">
+                            <cpt:fieldSet name="Turnster" id="turnster">
+                                <cpt:property id="naamTurnster"/>
+                                <cpt:property id="leeftijd"/>
+                                <cpt:property id="kledingmaat"/>
+                                <cpt:property id="lengte"/>
+                                <cpt:property id="postuur"/>
+                            </cpt:fieldSet>
+                        </bs3:col>
+                        <bs3:col span="3">
+                            <cpt:fieldSet name="Klant gegevens" id="klant">
+                                <cpt:property id="email"/>
+                                <cpt:property id="straat"/>
+                                <cpt:property id="postcode"/>
+                                <cpt:property id="plaats"/>
+                                <cpt:property id="telefoon1"/>
+                                <cpt:property id="telefoon2"/>
+                            </cpt:fieldSet>
+                        </bs3:col>
+                        <bs3:col span="3">
+                            <cpt:fieldSet name="Overige data" id="data">
+                                <cpt:property id="datumBetaald"/>
+                                <cpt:property id="datumKlaar"/>
+                            </cpt:fieldSet>
+                            <cpt:fieldSet name="Gemaakt door" id="gemaakt">
+                                <cpt:property id="gemaaktDoor"/>
+                            </cpt:fieldSet>
+                        </bs3:col>
+                    </bs3:row>
+                </bs3:tab>
+                <bs3:tab name="Metadata">
+                    <bs3:row>
+                        <bs3:col span="12">
+                            <cpt:fieldSet name="Algemeen" id="algemeen" unreferencedProperties="true">
+                            </cpt:fieldSet>
+                            <cpt:fieldSet name="Metadata" id="metadata">
+                                <cpt:action id="recentAuditEntries" position="PANEL_DROPDOWN"/>
+                                <cpt:action id="clearHints" position="PANEL_DROPDOWN"/>
+                                <cpt:action id="downloadLayoutXml" position="PANEL_DROPDOWN"/>
+                                <cpt:action id="downloadJdoMetadata" position="PANEL_DROPDOWN"/>
+                                <cpt:action id="rebuildMetamodel" position="PANEL_DROPDOWN"/>
+                                <cpt:property id="historicId"/>
+                                <cpt:property id="datanucleusVersionLong"/>
+                                <cpt:property id="datanucleusIdLong"/>
+                                <cpt:property id="datanucleusVersionTimestamp"/>
+                            </cpt:fieldSet>
+                        </bs3:col>
+                    </bs3:row>
+                </bs3:tab>
+            </bs3:tabGroup>
+        </bs3:col>
+    </bs3:row>
+    <bs3:row>
+        <bs3:col span="12" unreferencedCollections="true">
+            <cpt:collection id="regels" defaultView="table">
+                <cpt:action id="nieuweRegel"/>
+            </cpt:collection>
+            <cpt:collection defaultView="table" id="notities" named="notities">
+                <cpt:action id="nieuweNotitie" named="nieuwe notitie" cssClassFa="fa-plus"/>
+            </cpt:collection>
+        </bs3:col>
+    </bs3:row>
+</bs3:grid>

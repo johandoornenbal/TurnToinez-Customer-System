@@ -1,0 +1,1 @@
+ALTER TABLE tti."Klant" ADD COLUMN "stuurGeenMailing" boolean;

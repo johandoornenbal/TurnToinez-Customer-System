@@ -1,0 +1,52 @@
+<!-- this is a spring XML file where we have Camel embedded -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:camel="http://camel.apache.org/schema/spring"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+    <!-- Here we define Camel, notice the namespace it uses -->
+    <camelContext xmlns="http://camel.apache.org/schema/spring">
+
+        <propertyPlaceholder id="properties" location="spring.properties"/>
+
+        <!-- Camel route that gets mails from IMAP account -->
+        <route id="imapToInbox">
+            <from uri="imap://{{imap.uri}}?username={{imap.username}}&amp;password={{imap.password}}&amp;delete=false&amp;consumer.delay={{imap.consumer.delay}}&amp;consumer.initialDelay={{imap.consumer.initialDelay}}&amp;connectionTimeout=30000&amp;debugMode=false&amp;searchTerm.unseen=false&amp;searchTerm.fromSentDate={{imap.searchTerm.fromSentDate}}&amp;disconnect=true"/>
+                <bean ref="MyMailTransformer" method="doTransform"/>
+            <to uri="activemq:queue:inbox"/>
+        </route>
+
+        <!-- Camel route that processes incoming mails using REST API -->
+        <route id="processMailRoute">
+            <from uri="activemq:queue:inbox"/>
+                <log message="Sending mail from ${header.emailAddress} to processor"/>
+                <process ref="MyMailProcessor"/>
+            <to uri="activemq:queue:outbox"/>
+        </route>
+
+    </camelContext>
+
+    <!-- create a Camel ActiveMQ component to use, using the Spring bean style -->
+    <!-- we use the vm protocol to communicate intra-jvm which is much faster than tcp -->
+    <bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
+        <property name="brokerURL" value="vm://myBroker?create=false&amp;waitForStart=50000"/>
+    </bean>
+
+    <bean id="MyMailProcessor" class="domainapp.webapp.MyMailProcessor"/>
+
+    <bean id="MyMailTransformer" class="domainapp.webapp.MyMailTransformer"/>
+
+    <!--TODO: bean is not picked up by searchTerm=#mySearchTerm in URI tried also: searchTerm=%23mySearchTerm-->
+    <bean id="mySearchTerm" class="org.apache.camel.component.mail.SimpleSearchTerm">
+        <property name="fromSentDate" value="now-48h"/>
+        <property name="unseen" value="false"/>
+    </bean>
+
+    <!--TODO: same issue - not being picked up-->
+    <bean id="mySortTerm" class="com.sun.mail.imap.SortTerm">
+        <constructor-arg value="REVERSE, DATE"/>
+    </bean>
+
+</beans>
