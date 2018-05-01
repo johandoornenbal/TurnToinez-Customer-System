@@ -73,6 +73,21 @@ public class VerdienRegelRepository {
         );
     }
 
+    public VerdienRegel findByDatumAndPrijsAndOnderwerpAndPercentageAndKostenAndMedewerker(final LocalDate datum, final BigDecimal prijs, final String onderwerp, final Integer percentage, final BigDecimal kosten, final Medewerker medewerker) {
+        return repositoryService.uniqueMatch(
+                new QueryDefault<>(
+                        VerdienRegel.class,
+                        "findByDatumAndPrijsAndOnderwerpAndPercentageAndKostenAndMedewerker",
+                        "datum", datum,
+                        "prijs", prijs,
+                        "onderwerp", onderwerp,
+                        "percentage", percentage,
+                        "kosten", kosten,
+                        "medewerker", medewerker
+                )
+        );
+    }
+
     @Programmatic
     public void remove(final VerdienRegel verdienRegel){
         repositoryService.remove(verdienRegel);

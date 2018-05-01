@@ -38,6 +38,7 @@ import org.apache.isis.applib.annotation.Parameter;
 import org.apache.isis.applib.annotation.RestrictTo;
 import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.services.clock.ClockService;
+import org.apache.isis.applib.value.Blob;
 
 import domainapp.dom.bestellingen.BestellingRepository;
 import domainapp.dom.financieleadministratie.Boeking;
@@ -49,6 +50,7 @@ import domainapp.dom.financieleadministratie.KostenPostRepository;
 import domainapp.dom.medewerkers.KostenRegel;
 import domainapp.dom.medewerkers.KostenRegelRepository;
 import domainapp.dom.medewerkers.Medewerker;
+import domainapp.dom.medewerkers.MedewerkerService;
 import domainapp.dom.medewerkers.Saldo;
 import domainapp.dom.medewerkers.VerdienRegel;
 import domainapp.dom.medewerkers.VerdienRegelRepository;
@@ -168,6 +170,13 @@ public class FinancienMenu {
         return boekingRepository.listAll();
     }
 
+    @Action(semantics = SemanticsOf.IDEMPOTENT)
+    @MemberOrder(sequence = "8")
+    public Saldo importVerdiensteGrietje(final Blob sheet){
+        medewerkerService.importVerdienste(sheet, Medewerker.GRIETJE);
+        return new Saldo(Medewerker.GRIETJE);
+    }
+
     @Inject
     private BoekingRepository boekingRepository;
 
@@ -183,7 +192,11 @@ public class FinancienMenu {
     @Inject
     KostenRegelRepository kostenRegelRepository;
 
-    @Inject BestellingRepository bestellingRepository;
+    @Inject
+    BestellingRepository bestellingRepository;
+
+    @Inject
+    MedewerkerService medewerkerService;
 
 
 }

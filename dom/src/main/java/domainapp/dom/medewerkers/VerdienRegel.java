@@ -61,6 +61,16 @@ import lombok.Setter;
                 value = "SELECT "
                         + "FROM domainapp.dom.medewerkers.VerdienRegel "
                         + "WHERE medewerker == :medewerker"),
+        @Query(
+                name = "findByDatumAndPrijsAndOnderwerpAndPercentageAndKostenAndMedewerker", language = "JDOQL",
+                value = "SELECT "
+                        + "FROM domainapp.dom.medewerkers.VerdienRegel "
+                        + "WHERE datum == :datum "
+                        + "&& prijs == :prijs "
+                        + "&& onderwerp == :onderwerp "
+                        + "&& percentage == :percentage "
+                        + "&& kosten == :kosten "
+                        + "&& medewerker == :medewerker"),
 })
 @DomainObject(
         editing = Editing.DISABLED
