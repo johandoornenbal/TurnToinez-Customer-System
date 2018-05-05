@@ -9,6 +9,18 @@
     <bs3:row>
         <bs3:col span="8">
             <bs3:tabGroup>
+                <bs3:tab name="Basis prijzen en kosten">
+                    <bs3:row>
+                        <bs3:col span="12">
+                            <cpt:fieldSet name="Basis prijzen en kosten" id="basisprijzenkosten">
+                                <cpt:property id="basisPrijsPakje"/>
+                                <cpt:property id="basisKostenPakje"/>
+                                <cpt:property id="basisPrijsBroekje"/>
+                                <cpt:property id="basisKostenBroekje"/>
+                            </cpt:fieldSet>
+                        </bs3:col>
+                    </bs3:row>
+                </bs3:tab>
                 <bs3:tab name="Email tekst factuur">
                     <bs3:row>
                         <bs3:col span="12">

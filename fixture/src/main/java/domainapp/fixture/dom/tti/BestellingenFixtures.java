@@ -4,11 +4,11 @@ import java.math.BigDecimal;
 
 import javax.inject.Inject;
 
-import domainapp.dom.bestellingen.Maker;
-import domainapp.dom.klanten.Klant;
-import domainapp.dom.klanten.KlantRepository;
 import domainapp.dom.bestellingen.Bestelling;
 import domainapp.dom.bestellingen.Postuur;
+import domainapp.dom.klanten.Klant;
+import domainapp.dom.klanten.KlantRepository;
+import domainapp.dom.medewerkers.Medewerker;
 
 public class BestellingenFixtures extends BestellingAbstract {
 
@@ -80,7 +80,7 @@ public class BestellingenFixtures extends BestellingAbstract {
         );
         bestellingJohan2.besteld();
         bestellingJohan2.betaald(false);
-        bestellingJohan2.klaar(Maker.INEZ);
+        bestellingJohan2.klaar(Medewerker.INEZ, null, null, null, null, null);
     }
 
     @Inject KlantRepository klantRepository;

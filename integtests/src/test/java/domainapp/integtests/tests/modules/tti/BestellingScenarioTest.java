@@ -12,11 +12,11 @@ import org.apache.isis.applib.fixturescripts.FixtureScripts;
 import org.apache.isis.applib.services.xactn.TransactionService;
 
 import domainapp.dom.bestellingen.Bestelling;
-import domainapp.dom.bestellingen.Maker;
 import domainapp.dom.bestellingen.Status;
 import domainapp.dom.bestelservice.BestellingInvoerViewmodelVanSite;
 import domainapp.dom.klanten.Klant;
 import domainapp.dom.klanten.KlantRepository;
+import domainapp.dom.medewerkers.Medewerker;
 import domainapp.dom.siteservice.FormulierVanSite;
 import domainapp.dom.siteservice.FormulierVanSiteRepository;
 import domainapp.fixture.dom.tti.KlantenFixtures;
@@ -106,13 +106,13 @@ public class BestellingScenarioTest extends DomainAppIntegTest {
         // given
         getFixtureClock().setDate(2000,01,04);
         // when
-        wrap(bestelling).klaar(Maker.INEZ);
+        wrap(bestelling).klaar(Medewerker.INEZ, null, null, null, null, null);
         // then
         assertThat(bestelling.getStatus()).isEqualTo(Status.KLAAR);
         assertThat(bestelling.getDatumBestelling()).isEqualTo(new LocalDate(2000,01,01));
         assertThat(bestelling.getDatumBetaald()).isEqualTo(new LocalDate(2000,01,02));
         assertThat(bestelling.getDatumKlaar()).isEqualTo(new LocalDate(2000,01,04));
-        assertThat(bestelling.getGemaaktDoor()).isEqualTo(Maker.INEZ);
+        assertThat(bestelling.getGemaaktDoor()).isEqualTo(Medewerker.INEZ);
 
     }
 

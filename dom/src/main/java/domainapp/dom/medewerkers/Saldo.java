@@ -13,6 +13,7 @@ import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.annotation.ViewModel;
 import org.apache.isis.applib.services.clock.ClockService;
+import org.apache.isis.applib.value.Blob;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -90,6 +91,12 @@ public class Saldo {
 
     public LocalDate default0NieuweKosten(){
         return clockService.now();
+    }
+
+    @Action(semantics = SemanticsOf.SAFE)
+    @MemberOrder(sequence = "3")
+    public Blob exportNaarExcel(){
+        return medewerkerService.exportNaarExcel(getMedewerker());
     }
 
     @Inject

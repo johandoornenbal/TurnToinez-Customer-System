@@ -1,5 +1,7 @@
 package domainapp.dom.instellingen;
 
+import java.math.BigDecimal;
+
 import javax.jdo.annotations.Column;
 import javax.jdo.annotations.DatastoreIdentity;
 import javax.jdo.annotations.IdGeneratorStrategy;
@@ -75,5 +77,21 @@ public class Instellingen {
     @Column(allowsNull = "true", length = 2048)
     @PropertyLayout(multiLine = 18)
     private String emailWanneerBetaald;
+
+    @Getter @Setter
+    @Column(allowsNull = "true", scale = 2)
+    private BigDecimal basisPrijsPakje;
+
+    @Getter @Setter
+    @Column(allowsNull = "true", scale = 2)
+    private BigDecimal basisKostenPakje;
+
+    @Getter @Setter
+    @Column(allowsNull = "true", scale = 2)
+    private BigDecimal basisPrijsBroekje;
+
+    @Getter @Setter
+    @Column(allowsNull = "true", scale = 2)
+    private BigDecimal basisKostenBroekje;
 
 }

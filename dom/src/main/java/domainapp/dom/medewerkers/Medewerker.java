@@ -1,5 +1,7 @@
 package domainapp.dom.medewerkers;
 
 public enum Medewerker {
-    GRIETJE;
+    GRIETJE,
+    INEZ,
+    INEZ_EN_GRIETJE;
 }

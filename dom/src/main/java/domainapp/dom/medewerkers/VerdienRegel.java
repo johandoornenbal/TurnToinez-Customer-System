@@ -93,11 +93,11 @@ public class VerdienRegel {
     private String onderwerp;
 
     @Getter @Setter
-    @Column(allowsNull = "false")
+    @Column(allowsNull = "false", scale = 2)
     private BigDecimal prijs;
 
     @Getter @Setter
-    @Column(allowsNull = "false")
+    @Column(allowsNull = "false", scale = 2)
     private BigDecimal kosten;
 
     @Getter @Setter

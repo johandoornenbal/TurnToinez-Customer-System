@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.jdo.annotations.Column;
 import javax.jdo.annotations.DatastoreIdentity;
@@ -43,6 +44,9 @@ import domainapp.dom.communicatie.CommunicatieService;
 import domainapp.dom.facturen.Factuur;
 import domainapp.dom.facturen.FactuurRepository;
 import domainapp.dom.klanten.Klant;
+import domainapp.dom.medewerkers.Medewerker;
+import domainapp.dom.medewerkers.VerdienRegel;
+import domainapp.dom.medewerkers.VerdienRegelRepository;
 import domainapp.dom.notities.NotitieLink;
 import domainapp.dom.notities.NotitieLinkRepository;
 import lombok.Getter;
@@ -171,7 +175,7 @@ public class Bestelling implements Comparable<Bestelling> {
     @Column(allowsNull = "true")
     @Property(editing = Editing.ENABLED)
     @Getter @Setter
-    private Maker gemaaktDoor;
+    private Medewerker gemaaktDoor;
 
     public boolean hideGemaaktDoor(){
         return getStatus()!=Status.KLAAR;
@@ -280,18 +284,67 @@ public class Bestelling implements Comparable<Bestelling> {
     }
 
     @Action(semantics = SemanticsOf.IDEMPOTENT)
-    public Bestelling klaar(final Maker maker){
+    public Bestelling klaar(
+            final Medewerker maker,
+            @Nullable
+            final String omschrijving,
+            @Nullable
+            final BigDecimal verkoopPrijs,
+            @Nullable
+            final BigDecimal kosten,
+            @Nullable
+            final Integer percentage,
+            @Nullable
+            final String aantekening
+    ){
         if (getStatus()==Status.BETAALD){
             setStatus(Status.KLAAR);
             setGemaaktDoor(maker);
             setDatumKlaar(clockService.now());
         }
+        if (verkoopPrijs!=null) {
+            VerdienRegel verdienRegel = verdienRegelRepository.create(
+                    clockService.now(),
+                    omschrijving,
+                    verkoopPrijs,
+                    kosten,
+                    percentage,
+                    aantekening,
+                    Medewerker.GRIETJE
+            );
+            verdienRegel.setBestelling(this);
+        }
         return  this;
     }
 
-    public Maker default0Klaar(final Maker maker){
-        return Maker.INEZ;
+    public Medewerker default0Klaar(){
+        return Medewerker.INEZ;
     }
+
+    public String default1Klaar(){
+        return getSamenvatting();
+    }
+
+    public String validateKlaar(
+            final Medewerker maker,
+            final String omschrijving,
+            final BigDecimal verkoopPrijs,
+            final BigDecimal kosten,
+            final Integer percentage,
+            final String aantekening
+    ){
+        if (maker==Medewerker.INEZ){
+            if (omschrijving!=null || verkoopPrijs!=null || kosten!=null || percentage!=null || aantekening!=null){
+                return "Je kunt geen verdienste boeken, want je hebt dit pakje zelf gemaakt";
+            }
+        } else {
+            if (omschrijving==null || verkoopPrijs==null || kosten==null || percentage==null){
+                return "Verdienste moet worden ingevuld: omschrijving, verkoopprijs, kosten en percentage";
+            }
+        }
+        return null;
+    }
+
 
     public String disableKlaar(){
         if (getStatus()!=Status.BETAALD){
@@ -393,5 +446,8 @@ public class Bestelling implements Comparable<Bestelling> {
 
     @Inject
     private NotitieLinkRepository notitieLinkRepository;
+
+    @Inject
+    VerdienRegelRepository verdienRegelRepository;
 
 }

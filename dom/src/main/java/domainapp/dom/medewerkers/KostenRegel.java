@@ -75,7 +75,7 @@ public class KostenRegel {
     private String onderwerp;
 
     @Getter @Setter
-    @Column(allowsNull = "false")
+    @Column(allowsNull = "false", scale = 2)
     private BigDecimal bedrag;
 
     @Getter @Setter
