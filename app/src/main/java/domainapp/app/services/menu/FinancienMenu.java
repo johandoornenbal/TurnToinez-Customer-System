@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
+import javax.validation.constraints.Digits;
 
 import org.joda.time.LocalDate;
 
@@ -63,12 +64,19 @@ import domainapp.dom.medewerkers.VerdienRegelRepository;
 )
 public class FinancienMenu {
 
-    @Action(semantics = SemanticsOf.NON_IDEMPOTENT)
     @MemberOrder(sequence = "1")
+    public Saldo overzichtGrietje(){
+        return new Saldo(Medewerker.GRIETJE);
+    }
+
+    @Action(semantics = SemanticsOf.NON_IDEMPOTENT)
+    @MemberOrder(sequence = "2")
     public VerdienRegel nieuweVerdiensteGrietje(
             final LocalDate datum,
             final String onderwerp,
+            @Digits(integer = 10, fraction = 2)
             final BigDecimal verkoopprijs,
+            @Digits(integer = 10, fraction = 2)
             final BigDecimal kosten,
             final Integer percentage,
             @Nullable
@@ -82,10 +90,11 @@ public class FinancienMenu {
     }
 
     @Action(semantics = SemanticsOf.NON_IDEMPOTENT)
-    @MemberOrder(sequence = "2")
+    @MemberOrder(sequence = "3")
     public KostenRegel nieuweKostenGrietje(
             final LocalDate datum,
             final String onderwerp,
+            @Digits(integer = 10, fraction = 2)
             final BigDecimal bedrag,
             @Nullable
             final String aantekening
@@ -95,11 +104,6 @@ public class FinancienMenu {
 
     public LocalDate default0NieuweKostenGrietje(){
         return clockService.now();
-    }
-
-    @MemberOrder(sequence = "3")
-    public Saldo overzichtGrietje(){
-        return new Saldo(Medewerker.GRIETJE);
     }
 
     @Action(semantics = SemanticsOf.SAFE)
@@ -122,10 +126,13 @@ public class FinancienMenu {
     public Boeking nieuweOnkosten(
             final LocalDate datum,
             final String omschrijving,
+            @Digits(integer = 10, fraction = 2)
             final BigDecimal prijsIncl,
             @Parameter(optionality = Optionality.OPTIONAL)
+            @Digits(integer = 10, fraction = 2)
             final BigDecimal prijsExcl,
             @Parameter(optionality = Optionality.OPTIONAL)
+            @Digits(integer = 10, fraction = 2)
             final BigDecimal btw,
             final KostenPost kostenPost,
             @Parameter(optionality = Optionality.OPTIONAL)

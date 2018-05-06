@@ -16,6 +16,7 @@ import javax.jdo.annotations.Queries;
 import javax.jdo.annotations.Query;
 import javax.jdo.annotations.Version;
 import javax.jdo.annotations.VersionStrategy;
+import javax.validation.constraints.Digits;
 
 import org.joda.time.LocalDate;
 
@@ -60,7 +61,8 @@ import lombok.Setter;
                 name = "findByMedewerker", language = "JDOQL",
                 value = "SELECT "
                         + "FROM domainapp.dom.medewerkers.VerdienRegel "
-                        + "WHERE medewerker == :medewerker"),
+                        + "WHERE medewerker == :medewerker "
+                        + "ORDER BY datum DESC "),
         @Query(
                 name = "findByDatumAndPrijsAndOnderwerpAndPercentageAndKostenAndMedewerker", language = "JDOQL",
                 value = "SELECT "
@@ -92,13 +94,23 @@ public class VerdienRegel {
     @Column(allowsNull = "false")
     private String onderwerp;
 
-    @Getter @Setter
+    @Getter
     @Column(allowsNull = "false", scale = 2)
+    @Digits(integer = 10, fraction = 2)
     private BigDecimal prijs;
 
-    @Getter @Setter
+    public void setPrijs(final BigDecimal prijs){
+        this.prijs = prijs.setScale(2, RoundingMode.HALF_UP);
+    }
+
+    @Getter
     @Column(allowsNull = "false", scale = 2)
+    @Digits(integer = 10, fraction = 2)
     private BigDecimal kosten;
+
+    public void setKosten(final BigDecimal kosten){
+        this.kosten = kosten.setScale(2, RoundingMode.HALF_UP);
+    }
 
     @Getter @Setter
     @Column(allowsNull = "false")

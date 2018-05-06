@@ -1,6 +1,8 @@
 package domainapp.dom.bestellingen;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -16,6 +18,7 @@ import javax.jdo.annotations.Queries;
 import javax.jdo.annotations.Query;
 import javax.jdo.annotations.Version;
 import javax.jdo.annotations.VersionStrategy;
+import javax.validation.constraints.Digits;
 
 import org.joda.time.LocalDate;
 
@@ -37,12 +40,14 @@ import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.annotation.Where;
 import org.apache.isis.applib.services.clock.ClockService;
 import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
+import org.apache.isis.applib.services.message.MessageService;
 
 import org.incode.module.base.dom.utils.TitleBuilder;
 
 import domainapp.dom.communicatie.CommunicatieService;
 import domainapp.dom.facturen.Factuur;
 import domainapp.dom.facturen.FactuurRepository;
+import domainapp.dom.instellingen.InstellingenRepository;
 import domainapp.dom.klanten.Klant;
 import domainapp.dom.medewerkers.Medewerker;
 import domainapp.dom.medewerkers.VerdienRegel;
@@ -128,7 +133,7 @@ public class Bestelling implements Comparable<Bestelling> {
     private Status status;
 
     @Column(allowsNull = "true")
-    @Property(editing = Editing.ENABLED, hidden = Where.ALL_TABLES)
+    @Property(editing = Editing.ENABLED)
     @Getter @Setter
     private String naamTurnster;
 
@@ -289,8 +294,10 @@ public class Bestelling implements Comparable<Bestelling> {
             @Nullable
             final String omschrijving,
             @Nullable
+            @Digits(integer = 10, fraction = 2)
             final BigDecimal verkoopPrijs,
             @Nullable
+            @Digits(integer = 10, fraction = 2)
             final BigDecimal kosten,
             @Nullable
             final Integer percentage,
@@ -302,7 +309,7 @@ public class Bestelling implements Comparable<Bestelling> {
             setGemaaktDoor(maker);
             setDatumKlaar(clockService.now());
         }
-        if (verkoopPrijs!=null) {
+        if (maker != Medewerker.INEZ) {
             VerdienRegel verdienRegel = verdienRegelRepository.create(
                     clockService.now(),
                     omschrijving,
@@ -310,9 +317,11 @@ public class Bestelling implements Comparable<Bestelling> {
                     kosten,
                     percentage,
                     aantekening,
-                    Medewerker.GRIETJE
+                    maker == Medewerker.INEZ_EN_GRIETJE ? Medewerker.GRIETJE : maker
             );
             verdienRegel.setBestelling(this);
+        } else {
+            messageService.informUser("Geen verdienste aangemaakt voor " + maker.name()) ;
         }
         return  this;
     }
@@ -322,7 +331,37 @@ public class Bestelling implements Comparable<Bestelling> {
     }
 
     public String default1Klaar(){
-        return getSamenvatting();
+        return getSamenvatting().replace("| Verzendkosten", "");
+    }
+
+    public BigDecimal default2Klaar(){
+        if (getSamenvatting().toLowerCase().contains("pak") && getSamenvatting().toLowerCase().contains("broek")){
+            return instellingenRepository.instellingen().getBasisPrijsPakje().add(instellingenRepository.instellingen().getBasisPrijsBroekje());
+        }
+        if (getSamenvatting().toLowerCase().contains("pak")){
+            return instellingenRepository.instellingen().getBasisPrijsPakje();
+        }
+        if (getSamenvatting().toLowerCase().contains("broek")){
+            return instellingenRepository.instellingen().getBasisPrijsBroekje();
+        }
+        return null;
+    }
+
+    public BigDecimal default3Klaar(){
+        if (getSamenvatting().toLowerCase().contains("pak") && getSamenvatting().toLowerCase().contains("broek")){
+            return instellingenRepository.instellingen().getBasisKostenPakje().add(instellingenRepository.instellingen().getBasisKostenBroekje());
+        }
+        if (getSamenvatting().toLowerCase().contains("pak")){
+            return instellingenRepository.instellingen().getBasisKostenPakje();
+        }
+        if (getSamenvatting().toLowerCase().contains("broek")){
+            return instellingenRepository.instellingen().getBasisKostenBroekje();
+        }
+        return null;
+    }
+
+    public List<Integer> choices4Klaar(){
+        return Arrays.asList(20,40,60,80);
     }
 
     public String validateKlaar(
@@ -333,16 +372,20 @@ public class Bestelling implements Comparable<Bestelling> {
             final Integer percentage,
             final String aantekening
     ){
-        if (maker==Medewerker.INEZ){
-            if (omschrijving!=null || verkoopPrijs!=null || kosten!=null || percentage!=null || aantekening!=null){
-                return "Je kunt geen verdienste boeken, want je hebt dit pakje zelf gemaakt";
-            }
-        } else {
-            if (omschrijving==null || verkoopPrijs==null || kosten==null || percentage==null){
-                return "Verdienste moet worden ingevuld: omschrijving, verkoopprijs, kosten en percentage";
+        if (maker!=Medewerker.INEZ){
+            if (!verdiensteIsCompleetVoor(omschrijving, verkoopPrijs, kosten, percentage)){
+                return "Verdienste moet compleet worden ingevuld: omschrijving, verkoopprijs, kosten en percentage";
             }
         }
         return null;
+    }
+
+    private boolean verdiensteIsCompleetVoor(
+            final String omschrijving,
+            final BigDecimal verkoopPrijs,
+            final BigDecimal kosten,
+            final Integer percentage) {
+        return verkoopPrijs != null && omschrijving != null && kosten != null && percentage != null;
     }
 
 
@@ -449,5 +492,11 @@ public class Bestelling implements Comparable<Bestelling> {
 
     @Inject
     VerdienRegelRepository verdienRegelRepository;
+
+    @Inject
+    InstellingenRepository instellingenRepository;
+
+    @Inject
+    MessageService messageService;
 
 }

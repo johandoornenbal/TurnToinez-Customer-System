@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
+import javax.validation.constraints.Digits;
 
 import org.joda.time.LocalDate;
 
@@ -64,7 +65,9 @@ public class Saldo {
     public VerdienRegel nieuweVerdienste(
             final LocalDate datum,
             final String onderwerp,
+            @Digits(integer = 10, fraction = 2)
             final BigDecimal verkoopprijs,
+            @Digits(integer = 10, fraction = 2)
             final BigDecimal kosten,
             final Integer percentage,
             @Nullable
@@ -82,6 +85,7 @@ public class Saldo {
     public KostenRegel nieuweKosten(
             final LocalDate datum,
             final String onderwerp,
+            @Digits(integer = 10, fraction = 2)
             final BigDecimal bedrag,
             @Nullable
             final String aantekening

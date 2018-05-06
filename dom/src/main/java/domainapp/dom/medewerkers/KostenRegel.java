@@ -1,6 +1,7 @@
 package domainapp.dom.medewerkers;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
@@ -13,6 +14,7 @@ import javax.jdo.annotations.Queries;
 import javax.jdo.annotations.Query;
 import javax.jdo.annotations.Version;
 import javax.jdo.annotations.VersionStrategy;
+import javax.validation.constraints.Digits;
 
 import org.joda.time.LocalDate;
 
@@ -52,7 +54,8 @@ import lombok.Setter;
                 name = "findByMedewerker", language = "JDOQL",
                 value = "SELECT "
                         + "FROM domainapp.dom.medewerkers.KostenRegel "
-                        + "WHERE medewerker == :medewerker"),
+                        + "WHERE medewerker == :medewerker "
+                        + "ORDER BY datum DESC "),
 })
 @DomainObject(
         editing = Editing.DISABLED
@@ -74,9 +77,14 @@ public class KostenRegel {
     @Column(allowsNull = "false")
     private String onderwerp;
 
-    @Getter @Setter
+    @Getter
     @Column(allowsNull = "false", scale = 2)
+    @Digits(integer = 10, fraction = 2)
     private BigDecimal bedrag;
+
+    public void setBedrag(final BigDecimal bedrag){
+        this.bedrag = bedrag.setScale(2, RoundingMode.HALF_UP);
+    }
 
     @Getter @Setter
     @Column(allowsNull = "false")
