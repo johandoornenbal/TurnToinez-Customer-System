@@ -22,13 +22,17 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.joda.time.LocalDate;
+
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.CollectionLayout;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.DomainServiceLayout;
 import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.SemanticsOf;
+import org.apache.isis.applib.services.clock.ClockService;
 
+import domainapp.dom.document.DocumentExportService;
 import domainapp.dom.financieleadministratie.BoekingPost;
 import domainapp.dom.financieleadministratie.KostenPost;
 import domainapp.dom.financieleadministratie.KostenPostRepository;
@@ -67,10 +71,33 @@ public class InstellingenMenu {
         return klantRepository.alleKlanten();
     }
 
+    @Action(semantics = SemanticsOf.IDEMPOTENT)
+    public void exportBlobs(final LocalDate before){
+        documentExportService.exportDocumentBlobs(before);
+    }
+
+    public String validateExportBlobs(final LocalDate before){
+        LocalDate threshold = clockService.now().minusMonths(6);
+        if (before.isAfter(threshold)){
+            return "Kies een datum die langer dan een half jaar geleden is";
+        }
+        return null;
+    }
+
+    public LocalDate default0ExportBlobs(){
+        return clockService.now().minusMonths(6);
+    }
+
     @Inject
     public KlantRepository klantRepository;
 
     @Inject
     private KostenPostRepository kostenPostRepository;
+
+    @Inject
+    DocumentExportService documentExportService;
+
+    @Inject
+    ClockService clockService;
 
 }

@@ -77,6 +77,11 @@ import lombok.Setter;
                 value = "SELECT "
                         + "FROM domainapp.dom.facturen.Factuur "
                         + "WHERE klant == :klant "),
+        @Query(
+                name = "findByDatum", language = "JDOQL",
+                value = "SELECT "
+                        + "FROM domainapp.dom.facturen.Factuur "
+                        + "WHERE datum == :datum "),
         @javax.jdo.annotations.Query(
                 name = "findByUniqueHistoricId", language = "JDOQL",
                 value = "SELECT "

@@ -38,6 +38,7 @@ import org.incode.module.document.dom.services.DocumentCreatorService;
 import domainapp.app.services.api.Api;
 import domainapp.dom.DomainAppDomainModule;
 import domainapp.dom.bestellingen.BestellingRepository;
+import domainapp.dom.document.DocumentExportService;
 import domainapp.dom.financieleadministratie.overzichten.OverzichtService;
 import domainapp.dom.klanten.KlantRepository;
 import domainapp.dom.mailchimpintegration.TtiMailChimpService;
@@ -109,7 +110,8 @@ public class DomainAppAppManifest implements AppManifest {
                 Api.class,
                 MedewerkerService.class,
                 VerdienRegelRepository.class,
-                KostenRegelRepository.class);
+                KostenRegelRepository.class,
+                DocumentExportService.class);
     }
 
     /**

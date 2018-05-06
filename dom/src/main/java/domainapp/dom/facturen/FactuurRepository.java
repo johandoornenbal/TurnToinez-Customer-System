@@ -5,8 +5,11 @@ import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
+
+import org.joda.time.LocalDate;
 
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.DomainService;
@@ -80,6 +83,29 @@ public class FactuurRepository {
                         "findByKlant",
                         "klant", klant));
     }
+
+    @Programmatic
+    public List<Factuur> findByDatum(
+            final LocalDate datum
+    ) {
+        return repositoryService.allMatches(
+                new org.apache.isis.applib.query.QueryDefault<>(
+                        Factuur.class,
+                        "findByDatum",
+                        "datum", datum));
+    }
+
+    @Programmatic
+    public List<Factuur> findByDatumBefore(
+            final LocalDate before
+    ) {
+        return repositoryService
+                .allInstances(Factuur.class)
+                .stream()
+                .filter(x->x.getDatum().isBefore(before))
+                .collect(Collectors.toList());
+    }
+
 
     @Programmatic
     public Factuur create(final Bestelling bestelling) {
