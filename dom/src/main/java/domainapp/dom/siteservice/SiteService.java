@@ -82,7 +82,9 @@ public class SiteService {
                         prijsInfo = gsonPrijs.fromJson(response.readEntity(String.class), PrijsInfo.class);
                     }
                 } catch (Exception e) {
-                    messageService.warnUser(e.getMessage());
+                    if (e.getMessage()!=null) {
+                        messageService.warnUser(e.getMessage());
+                    }
                 }
                 formulieren.add(formulierVanSiteRepository.create(
                         res.getNummer(),
@@ -113,7 +115,11 @@ public class SiteService {
             return formulieren;
 
         } catch (Exception e) {
-            messageService.warnUser(e.getMessage());
+            if (e.getMessage()!=null) {
+                messageService.warnUser(e.getMessage());
+            } else {
+                messageService.warnUser("Het ophalen van bestellingen gaat niet goed. Waarschijnlijk een verkeerde bestelling aanwezig. Vraag hulp van je lieve man ... ;-)");
+            }
             return formulieren;
         }
 

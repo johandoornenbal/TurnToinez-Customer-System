@@ -72,13 +72,13 @@ public class InstellingenMenu {
     }
 
     @Action(semantics = SemanticsOf.IDEMPOTENT)
-    public void exportBlobs(final LocalDate before){
-        documentExportService.exportDocumentBlobs(before);
+    public void exportBlobs(final LocalDate before, final boolean onlyExportNoDelete){
+        documentExportService.exportDocumentBlobs(before, onlyExportNoDelete);
     }
 
-    public String validateExportBlobs(final LocalDate before){
+    public String validateExportBlobs(final LocalDate before, final boolean onlyExportNoDelete){
         LocalDate threshold = clockService.now().minusMonths(6);
-        if (before.isAfter(threshold)){
+        if (!onlyExportNoDelete && before.isAfter(threshold)){
             return "Kies een datum die langer dan een half jaar geleden is";
         }
         return null;

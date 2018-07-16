@@ -28,7 +28,7 @@ import domainapp.dom.facturen.FactuurRepository;
 public class DocumentExportService {
 
 
-    public void exportDocumentBlobs(final LocalDate before){
+    public void exportDocumentBlobs(final LocalDate before, final boolean onlyExportNoDelete){
         String home = System.getProperty("user.home");
         List<Factuur> fact =  factuurRepository.findByDatumBefore(before);
         fact.forEach(x->{
@@ -53,7 +53,7 @@ public class DocumentExportService {
                         error = true;
                         e.printStackTrace();
                     }
-                    if (!error){
+                    if (!error && !onlyExportNoDelete){
                         Document_movedToExternalUrl mixin = new Document_movedToExternalUrl((Document) document);
                         mixin.$$(home + File.separator + "facturen" + File.separator, null);
                     }
